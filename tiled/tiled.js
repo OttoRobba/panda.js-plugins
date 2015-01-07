@@ -71,19 +71,19 @@ game.createClass('TileMap', {
             var layer = this.json.layers[i];
             var container = new game.Container();
             var entityContainer = new game.Container();
-			if (layer.type === "tilelayer") {
-		        for (var o = 0; o < layer.data.length; o++) {
-		            if (layer.data[o] === 0) continue;
+            if (layer.type === "tilelayer") {
+                for (var o = 0; o < layer.data.length; o++) {
+                    if (layer.data[o] === 0) continue;
 
-		            var tile = this.getTile(layer.data[o]);
-		            var x = this.tileWidth * (o % layer.width);
-		            var y = this.tileHeight * Math.floor(o / layer.height);
-		            tile.position.x = x;
-		            tile.position.y = y;
-		            tile.addTo(container);
-		        }
+                    var tile = this.getTile(layer.data[o]);
+                    var x = this.tileWidth * (o % layer.width);
+                    var y = this.tileHeight * Math.floor(o / layer.height);
+                    tile.position.x = x;
+                    tile.position.y = y;
+                    tile.addTo(container);
+                }
             } else if (layer.type === "objectgroup") {
-            	this._initObjectLayers(layer, entityContainer);
+                this._initObjectLayers(layer, entityContainer);
             }
 
             container.position.set(layer.x, layer.y);
@@ -100,18 +100,18 @@ game.createClass('TileMap', {
         }
     },
     
-    _initObjectLayers: function(layer, container)	 {
+    _initObjectLayers: function(layer, container)     {
         for (var j = 0; j < layer.objects.length; j++) {
-    	    if (game[layer.objects[j].name]) {
-    		    new game[layer.objects[j].name](
-    			    layer.objects[j].x,
-    			    layer.objects[j].y,
-    			    container,
-    			    layer.objects[j].properties
-    		    );
-    	    } else {
-    	        console.log("Tilemap tried to spawn '" + layer.objects[j].name + "' but there is no such class.");
-    	    }
+            if (game[layer.objects[j].name]) {
+                new game[layer.objects[j].name](
+                    layer.objects[j].x,
+                    layer.objects[j].y,
+                    container,
+                    layer.objects[j].properties
+                );
+            } else {
+                console.log("Tilemap tried to spawn '" + layer.objects[j].name + "' but there is no such class.");
+            }
         }
     },
 
