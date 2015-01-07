@@ -70,18 +70,27 @@ game.createClass('TileMap', {
         for (var i = 0; i < this.json.layers.length; i++) {
             var layer = this.json.layers[i];
             var container = new game.Container();
+			if (layer.data) {
+		        for (var o = 0; o < layer.data.length; o++) {
+		            if (layer.data[o] === 0) continue;
 
-            for (var o = 0; o < layer.data.length; o++) {
-                if (layer.data[o] === 0) continue;
-
-                var tile = this.getTile(layer.data[o]);
-                var x = this.tileWidth * (o % layer.width);
-                var y = this.tileHeight * Math.floor(o / layer.height);
-                tile.position.x = x;
-                tile.position.y = y;
-                tile.addTo(container);
-            }
-
+		            var tile = this.getTile(layer.data[o]);
+		            var x = this.tileWidth * (o % layer.width);
+		            var y = this.tileHeight * Math.floor(o / layer.height);
+		            tile.position.x = x;
+		            tile.position.y = y;
+		            tile.addTo(container);
+		        }
+	        } else if (layer.objects) {
+				for (var j = 0; j < layer.objects.length; j++) {
+					console.log(layer.objects[j].name);
+					if (!game[layer.objects[j].name]) {
+						console.log("You tried to create '" + layer.objects[j].name + "' but the class has not been declared");
+					} else {
+						new game[layer.objects[j].name](layer.objects[j].x, layer.objects[j].y);
+					}
+				}
+			}
             container.position.set(layer.x, layer.y);
             container.alpha = layer.opacity;
             container.visible = layer.visible;
