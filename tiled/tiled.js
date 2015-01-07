@@ -70,9 +70,11 @@ game.createClass('TileMap', {
         for (var i = 0; i < this.json.layers.length; i++) {
             var layer = this.json.layers[i];
             var container = new game.Container();
+            var entityContainer = new game.Container();
 			if (layer.type === "tilelayer") {
 		        for (var o = 0; o < layer.data.length; o++) {
 		            if (layer.data[o] === 0) continue;
+
 		            var tile = this.getTile(layer.data[o]);
 		            var x = this.tileWidth * (o % layer.width);
 		            var y = this.tileHeight * Math.floor(o / layer.height);
@@ -81,14 +83,19 @@ game.createClass('TileMap', {
 		            tile.addTo(container);
 		        }
             } else if (layer.type === "objectgroup") {
-                this._initObjectLayers(layer, container);
+            	this._initObjectLayers(layer, entityContainer);
             }
 
             container.position.set(layer.x, layer.y);
+            entityContainer.position.set(layer.x, layer.y);
             container.alpha = layer.opacity;
+            entityContainer.alpha = layer.opacity;
             container.visible = layer.visible;
+            entityContainer.visible = layer.visible;
             if (game.TileMap.cacheLayersAsBitmap) container.cacheAsBitmap = true;
             container.addTo(this.container);
+            entityContainer.addTo(this.container);
+
             this.layers[layer.name] = container;
         }
     },

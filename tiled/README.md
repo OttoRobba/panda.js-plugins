@@ -39,7 +39,7 @@ config.js
     
 ### Using Object Layers
 
-With this plugin you can position and spawn entities directly within Tiled.
+With this plugin you can position and spawn entities directly within Tiled. With the map editor open:
 
 1. Create an object layer.
 2. Draw and position the object where you want it
