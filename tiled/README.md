@@ -49,7 +49,7 @@ With this plugin you can position and spawn entities directly within Tiled. With
 Now back to your favorite text editor, create a class with the name you assigned (case sensitive). Suppose we had made an object named Troll in Tiled:
 
     game.createClass('Troll', {
-        init: function(x, y, container, properties) {
+        init: function(x, y, container, width, height, properties) {
     		this.sprite = new game.Sprite('troll.png');
     		this.sprite.position.set(x, y);
     		this.sprite.addTo(container);
@@ -63,6 +63,8 @@ We will use the X and Y to position the entity - this are the coordinates of the
 The container argument is used so that the plugin can properly add the entity to the stage in the correct Z order. If you want to manually call this entity, just pass this.stage as the third argument, like this:
 
     var troll = new game.Troll(100, 100, this.stage);
+    
+The width and height arguments are useful if you are creating something like bounding boxes or entites which can have varying scales.
 
 The properties argument is an object, containing all the properties that you add yourself on the Tiled object. This means you can easily change things like the health of an enemy or the message in a billboard. Very versatile.
 
@@ -81,7 +83,7 @@ The properties argument is an object, containing all the properties that you add
     game.addAsset('tmw_desert_spacing.png');
     
     game.createClass('Troll', {
-        init: function(x, y, container, properties) {
+        init: function(x, y, container, width, height, properties) {
     		this.sprite = new game.Sprite('troll.png');
     		this.sprite.position.set(x, y);
     		this.health = properties.health;
@@ -97,7 +99,7 @@ The properties argument is an object, containing all the properties that you add
         init: function() {
             var tilemap = new game.TileMap('desert.json');
             tilemap.addTo(this.stage);
-            var troll = new game.Troll(10, 10, this.stage, {health: 200});
+            var troll = new game.Troll(10, 10, this.stage, null, null, {health: 200});
         }
     });
     

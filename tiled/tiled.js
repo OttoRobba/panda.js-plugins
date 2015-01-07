@@ -106,6 +106,8 @@ game.createClass('TileMap', {
                 new game[layer.objects[j].name](
                     layer.objects[j].x,
                     layer.objects[j].y,
+                    layer.objects[j].width,
+                    layer.objects[j].height,
                     container,
                     layer.objects[j].properties
                 );
