@@ -70,7 +70,7 @@ game.createClass('TileMap', {
         for (var i = 0; i < this.json.layers.length; i++) {
             var layer = this.json.layers[i];
             var container = new game.Container();
-			if (layer.data) {
+			if (layer.type === "tilelayer") {
 		        for (var o = 0; o < layer.data.length; o++) {
 		            if (layer.data[o] === 0) continue;
 
@@ -81,18 +81,10 @@ game.createClass('TileMap', {
 		            tile.position.y = y;
 		            tile.addTo(container);
 		        }
-	        } else if (layer.objects) {
-				for (var j = 0; j < layer.objects.length; j++) {
-					console.log(layer.objects[j].name);
-					if (!game[layer.objects[j].name]) {
-						console.log("You tried to create '" + layer.objects[j].name + "' but the class has not been declared");
-					} else {
-						//Code below does not work,
-						//need to find a way to create entities
-						new game[layer.objects[j].name](layer.objects[j].x, layer.objects[j].y);
-					}
-				}
-			}
+            } else if (layer.type === "objectgroup") {
+            	this._initObjectLayers(layer, container);
+            }
+
             container.position.set(layer.x, layer.y);
             container.alpha = layer.opacity;
             container.visible = layer.visible;
@@ -100,6 +92,18 @@ game.createClass('TileMap', {
             container.addTo(this.container);
 
             this.layers[layer.name] = container;
+        }
+    },
+    
+    _initObjectLayers: function(layer, container)	 {
+        for (var j = 0; j < layer.objects.length; j++) {
+    	    if (game[layer.objects[j].name]) {
+    		    new game[layer.objects[j].name](
+    			    layer.objects[j].x,
+    			    layer.objects[j].y,
+    			    container
+    		    );
+    	    }
         }
     },
 
