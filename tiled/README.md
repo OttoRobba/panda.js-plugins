@@ -66,7 +66,7 @@ The container argument is used so that the plugin can properly add the entity to
 
 The properties argument is an object, containing all the properties that you add yourself on the Tiled object. This means you can easily change things like the health of an enemy or the message in a billboard. Very versatile.
 
-### Complete example
+### Expanded example
 
     game.module(
         'game.main'
@@ -81,11 +81,11 @@ The properties argument is an object, containing all the properties that you add
     game.addAsset('tmw_desert_spacing.png');
     
     game.createClass('Troll', {
-        init: function(x, y, c, properties) {
+        init: function(x, y, container, properties) {
     		this.sprite = new game.Sprite('troll.png');
     		this.sprite.position.set(x, y);
     		this.health = properties.health;
-    		this.sprite.addTo(c);
+    		this.sprite.addTo(container);
     		game.scene.addObject(this);
     	},
     	update: function() {
@@ -97,8 +97,7 @@ The properties argument is an object, containing all the properties that you add
         init: function() {
             var tilemap = new game.TileMap('desert.json');
             tilemap.addTo(this.stage);
-            var troll = new game.Troll(10, 10, this.stage);
-            troll.update = function() {};
+            var troll = new game.Troll(10, 10, this.stage, {health: 200});
         }
     });
     
