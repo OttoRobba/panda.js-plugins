@@ -87,6 +87,8 @@ game.createClass('TileMap', {
 					if (!game[layer.objects[j].name]) {
 						console.log("You tried to create '" + layer.objects[j].name + "' but the class has not been declared");
 					} else {
+						//Code below does not work,
+						//need to find a way to create entities
 						new game[layer.objects[j].name](layer.objects[j].x, layer.objects[j].y);
 					}
 				}
