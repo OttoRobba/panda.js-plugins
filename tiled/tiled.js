@@ -73,7 +73,6 @@ game.createClass('TileMap', {
 			if (layer.type === "tilelayer") {
 		        for (var o = 0; o < layer.data.length; o++) {
 		            if (layer.data[o] === 0) continue;
-
 		            var tile = this.getTile(layer.data[o]);
 		            var x = this.tileWidth * (o % layer.width);
 		            var y = this.tileHeight * Math.floor(o / layer.height);
@@ -82,7 +81,7 @@ game.createClass('TileMap', {
 		            tile.addTo(container);
 		        }
             } else if (layer.type === "objectgroup") {
-            	this._initObjectLayers(layer, container);
+                this._initObjectLayers(layer, container);
             }
 
             container.position.set(layer.x, layer.y);
@@ -90,7 +89,6 @@ game.createClass('TileMap', {
             container.visible = layer.visible;
             if (game.TileMap.cacheLayersAsBitmap) container.cacheAsBitmap = true;
             container.addTo(this.container);
-
             this.layers[layer.name] = container;
         }
     },
@@ -101,8 +99,11 @@ game.createClass('TileMap', {
     		    new game[layer.objects[j].name](
     			    layer.objects[j].x,
     			    layer.objects[j].y,
-    			    container
+    			    container,
+    			    layer.objects[j].properties
     		    );
+    	    } else {
+    	        console.log("Tilemap tried to spawn '" + layer.objects[j].name + "' but there is no such class.");
     	    }
         }
     },
@@ -214,3 +215,4 @@ game.TileMap.cacheLayersAsBitmap = false;
 game.TileMap.cacheAsBitmap = false;
 
 });
+
